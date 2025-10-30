@@ -1,28 +1,81 @@
+import { motion, AnimatePresence } from "framer-motion";
+import ImageSlider from "./ImageSlider";
+
 export default function ProductModal({ open, onClose, product }) {
   if (!open || !product) return null;
 
   const images = (product.images || []).map(
-    (img) => `${import.meta.env.VITE_API_BASE?.replace("/api", "") || "http://localhost:5000"}${img}`
+    (img) =>
+      `${
+        import.meta.env.VITE_API_BASE?.replace("/api", "") ||
+        "http://localhost:5000"
+      }${img}`
   );
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg w-full max-w-lg overflow-auto p-4">
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="font-semibold text-lg">{product.name}</h3>
-          <button onClick={onClose}>✕</button>
-        </div>
-        {images.length ? (
-          <img src={images[0]} className="w-full h-60 object-cover rounded" />
-        ) : (
-          <div className="h-60 bg-gray-100 rounded flex items-center justify-center">No image</div>
-        )}
-        <p className="mt-3 text-gray-700">{product.description}</p>
-        <p className="font-semibold text-indigo-600 mt-2">₹ {product.price}</p>
-        <p className="text-sm text-gray-500">
-          {product.categoryId?.name} → {product.subCategoryId?.name}
-        </p>
-      </div>
-    </div>
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          <motion.div
+            initial={{ scale: 0.9, y: 20 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.9, y: 20 }}
+            transition={{ type: "spring", stiffness: 120, damping: 15 }}
+            className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden"
+          >
+            {/* ✖ Close button */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 z-50 text-gray-600 hover:text-white bg-gray-200 hover:bg-indigo-500 transition-all rounded-full w-9 h-9 flex items-center justify-center shadow"
+            >
+              ✕
+            </button>
+
+            {/* 🖼 Product Images */}
+            <div className="w-full h-80 bg-gray-100">
+              {images.length > 0 ? (
+                <ImageSlider images={images} />
+              ) : (
+                <div className="h-full flex items-center justify-center text-gray-400">
+                  No Image Available
+                </div>
+              )}
+            </div>
+
+            {/* 🧾 Product Info Section */}
+            <div className="p-6 space-y-4">
+              <div className="flex flex-col md:flex-row justify-between items-start gap-3">
+                <h3 className="text-2xl font-semibold text-gray-800">
+                  {product.name}
+                </h3>
+                <p className="text-indigo-600 font-bold text-lg">
+                  ₹ {product.price}
+                </p>
+              </div>
+
+              <p className="text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                {product.description}
+              </p>
+
+              {/* 🏷 Category Tags */}
+              <div className="flex flex-wrap gap-2 pt-3">
+                <span className="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full border border-indigo-100">
+                  Category: {product.categoryId?.name || "N/A"}
+                </span>
+                <span className="text-xs bg-violet-50 text-violet-700 px-3 py-1 rounded-full border border-violet-100">
+                  Subcategory: {product.subCategoryId?.name || "N/A"}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

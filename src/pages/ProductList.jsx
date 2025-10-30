@@ -49,8 +49,8 @@ export default function ProductList() {
     <div className="p-6 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Products</h1>
-        <button onClick={() => { setEditProduct(null); setFormOpen(true); }} className="bg-indigo-600 text-white px-4 py-2 rounded">
-          Add Product
+        <button onClick={() => { setEditProduct(null); setFormOpen(true); }} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-sm transition-all">
+          + Add Product
         </button>
       </div>
 
