@@ -6,7 +6,7 @@ export default function ProductCard({ product, onView, onEdit, onDelete }) {
     (img) =>
       `${
         import.meta.env.VITE_API_BASE?.replace("/api", "") ||
-        "http://localhost:5000"
+        "https://productmanagement-backend-fsw6.onrender.com"
       }${img}`
   );
 
@@ -16,14 +16,12 @@ export default function ProductCard({ product, onView, onEdit, onDelete }) {
       transition={{ type: "spring", stiffness: 200, damping: 15 }}
       className="bg-white rounded-2xl shadow-md hover:shadow-xl overflow-hidden border border-gray-100 transition-all duration-300 flex flex-col"
     >
-      {/* Product Image */}
+
       <div className="relative bg-gray-50">
         <ImageSlider images={imageUrls} />
       </div>
 
-      {/* Product Info */}
       <div className="p-5 flex flex-col flex-grow justify-between">
-        {/* Name + Price */}
         <div className="flex items-start justify-between">
           <h2 className="font-semibold text-lg text-gray-900 line-clamp-2 pr-2">
             {product.name}
@@ -33,12 +31,10 @@ export default function ProductCard({ product, onView, onEdit, onDelete }) {
           </p>
         </div>
 
-        {/* Description */}
         <p className="text-gray-500 text-sm mt-2 line-clamp-3 leading-relaxed">
           {product.description}
         </p>
 
-        {/* Category/Subcategory */}
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <span className="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full border border-indigo-100">
             {product.categoryId?.name || "No Category"}
@@ -48,7 +44,6 @@ export default function ProductCard({ product, onView, onEdit, onDelete }) {
           </span>
         </div>
 
-        {/* Buttons */}
         <div className="flex justify-between gap-2 mt-5">
           <button
             onClick={() => onView(product)}

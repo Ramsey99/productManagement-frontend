@@ -8,7 +8,7 @@ export default function ProductModal({ open, onClose, product }) {
     (img) =>
       `${
         import.meta.env.VITE_API_BASE?.replace("/api", "") ||
-        "http://localhost:5000"
+        "https://productmanagement-backend-fsw6.onrender.com"
       }${img}`
   );
 
@@ -29,7 +29,7 @@ export default function ProductModal({ open, onClose, product }) {
             transition={{ type: "spring", stiffness: 120, damping: 15 }}
             className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden"
           >
-            {/* ✖ Close button */}
+
             <button
               onClick={onClose}
               className="absolute top-4 right-4 z-50 text-gray-600 hover:text-white bg-gray-200 hover:bg-indigo-500 transition-all rounded-full w-9 h-9 flex items-center justify-center shadow"
@@ -37,7 +37,6 @@ export default function ProductModal({ open, onClose, product }) {
               ✕
             </button>
 
-            {/* 🖼 Product Images */}
             <div className="w-full h-80 bg-gray-100">
               {images.length > 0 ? (
                 <ImageSlider images={images} />
@@ -48,7 +47,6 @@ export default function ProductModal({ open, onClose, product }) {
               )}
             </div>
 
-            {/* 🧾 Product Info Section */}
             <div className="p-6 space-y-4">
               <div className="flex flex-col md:flex-row justify-between items-start gap-3">
                 <h3 className="text-2xl font-semibold text-gray-800">
@@ -63,7 +61,6 @@ export default function ProductModal({ open, onClose, product }) {
                 {product.description}
               </p>
 
-              {/* 🏷 Category Tags */}
               <div className="flex flex-wrap gap-2 pt-3">
                 <span className="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full border border-indigo-100">
                   Category: {product.categoryId?.name || "N/A"}
